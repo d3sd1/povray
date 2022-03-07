@@ -113,7 +113,6 @@ object{ draw_plant(7) rotate y*360*clock }
 //==========================================  
 
 #declare RadOK=2; // 0=no radiosity ; 1= low quality rad; 2= good quality
-#declare AppleOK=1; // turns all snails on
 #declare BlurOK=0; // focal blur
 #declare AreaOK=1; // area light
 global_settings {
@@ -148,31 +147,10 @@ global_settings {
 }
 
 
-#declare Camera=camera{
-        location z*-30+y*10
-        direction z*2
-        up y
-        right x*image_width/image_height
-        look_at <0,4,0>
-        #if (BlurOK=1)
-            aperture 3
-            blur_samples 20
-            focal_point <0,4,0> 
-            confidence 0.96
-            variance 1/300 
-        #end
-}
-
-#declare C_Sun= rgb <1,0.98,0.96>;
-
-
 sky_sphere{pigment{gradient y color_map{[0.5 White][0.6 rgb <92,126,202>/225]}}}
 
 
 
-#if (AppleOK=1)
-    
-    
     #declare P_Apple_Skin=pigment{image_map{jpeg "apple_map.jpg" interpolate 2} }	    
     #declare N_Apple_Skin=normal{bump_map{jpeg "apple_bump.jpg" interpolate 2} bump_size 3}	
     #declare F_Apple_Skin = finish{ambient 0 diffuse 1 specular 0.9 roughness 0.002
@@ -201,26 +179,10 @@ sky_sphere{pigment{gradient y color_map{[0.5 White][0.6 rgb <92,126,202>/225]}}}
     #declare Apple=union{
         object{Apple_Skin interior{ior 1.55}}
         object{Apple_Stem}
-        scale 8/18
+        scale 0.01
     } 
 
-    #declare P_Apple_Skin=pigment{image_map{jpeg "apple_red_map.jpg" interpolate 2} }	    
-    #declare T_Apple_Skin= texture{ // Peau
-        pigment{P_Apple_Skin} 
-        normal{N_Apple_Skin} 
-        finish{F_Apple_Skin} 
-    } 
-    #include "apple.inc"
-    #declare Apple2=union{
-        object{Apple_Skin interior{ior 1.55}}
-        object{Apple_Stem}
-        scale 1
-    } 
 
-#else
-    #declare Apple=sphere{0,4 translate y*4 texture{pigment{Yellow}finish{ambient 0 diffuse 1 specular 0.05 roughness 0.01}}}
-    #declare Apple2=sphere{0,4 translate y texture{pigment{Yellow}finish{ambient 0 diffuse 1 specular 0.05 roughness 0.01}}}
-#end
 // stone ground
 #declare Ground=plane{y,0 
     texture{
@@ -250,6 +212,13 @@ sky_sphere{pigment{gradient y color_map{[0.5 White][0.6 rgb <92,126,202>/225]}}}
 
 object{Ground}
 object{Ground rotate x*-90 translate z*4}
-object{Apple translate x*2}
-object{Apple2 scale 0.8 rotate y*90 translate x*-4}
+object{Apple translate x*-1.2 translate y*-0.2}
+object{Apple translate x*-1.3 translate y*0.35}
+object{Apple translate x*-1.3 translate y*-0.35}
+object{Apple translate x*-1 translate y*0.5}
+object{Apple translate x*1.1 translate y*0.5}
+object{Apple translate x*1.1 translate y*0.1}
+object{Apple translate x*0.9 translate y*0.25}
+object{Apple translate x*0.45 translate y*-0.5}
               
+//object{Apple2 scale 0.8 rotate y*90 translate x*-4}
